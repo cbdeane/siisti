@@ -21,6 +21,7 @@ def main(stdscr):
     items = load_items('items.txt')
     selected = 0
     completed = []
+    completed_suffix = " (completed)"
 
     while True:
         stdscr.clear()
@@ -32,7 +33,7 @@ def main(stdscr):
                 stdscr.attron(curses.A_REVERSE)
             if item in completed:
                 stdscr.attron(curses.A_DIM)
-                stdscr.addstr(y, x, item + ' (completed)')
+                stdscr.addstr(y, x, item)
                 stdscr.attroff(curses.A_DIM)
             else:
                 stdscr.addstr(y, x, item)
@@ -61,8 +62,13 @@ def main(stdscr):
             if selected >= len(items):
                 selected = len(items) - 1
         elif key == ord(' '):
-            completed.append(items[selected])
-            items.append(items.pop(selected))
+            if items[selected].endswith(completed_suffix):
+                completed.remove(items[selected])
+                items[selected] = items[selected].replace(completed_suffix, "")
+            else:
+                items[selected] += completed_suffix
+                completed.append(items[selected])
+                items.append(items.pop(selected))
             if selected >= len(items):
                 selected = len(items) - 1
         elif key == ord('h') and selected > 0:

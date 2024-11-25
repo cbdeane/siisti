@@ -14,6 +14,7 @@ def save_items(filename, items):
 
 def main(stdscr):
     curses.use_default_colors()
+    stdscr.border()
     curses.curs_set(0)
     stdscr.nodelay(1)
     stdscr.timeout(200)
@@ -29,6 +30,7 @@ def main(stdscr):
 
     while True:
         stdscr.clear()
+        stdscr.border()
         height, width = stdscr.getmaxyx()
         for idx, item in enumerate(items):
             x = width // 2 - len(item) // 2

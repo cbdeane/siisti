@@ -22,6 +22,10 @@ def main(stdscr):
     selected = 0
     completed = []
     completed_suffix = " (completed)"
+    
+    for item in items:
+        if item.endswith(completed_suffix):
+            items.remove(item)
 
     while True:
         stdscr.clear()

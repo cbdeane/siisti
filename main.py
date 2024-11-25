@@ -69,6 +69,7 @@ def main(stdscr):
             if items[selected].endswith(completed_suffix):
                 completed.remove(items[selected])
                 items[selected] = items[selected].replace(completed_suffix, "")
+                items.insert(0, items.pop(selected))
             else:
                 items[selected] += completed_suffix
                 completed.append(items[selected])

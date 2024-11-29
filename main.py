@@ -47,26 +47,37 @@ def main(stdscr):
                 stdscr.attroff(curses.A_REVERSE)
         
         key = stdscr.getch()
-
+        
+        # Keybind q for quit
         if key == ord('q'):
             break
+
+        # Keybind j for move down
         elif key == ord('j') and selected < len(items) - 1:
             selected += 1
+
+        # Keybind k for move up
         elif key == ord('k') and selected > 0:
             selected -= 1
+
+        # Keybind a for append new item
         elif key == ord('a'):
             new_item = ""
             while (len(new_item) < 1):
                 curses.echo()
-                stdscr.addstr(height - 1, 0, "Enter new item: ")
+                stdscr.addstr(height - 2, 1, "Enter new item: ")
                 stdscr.timeout(-1)
-                new_item = stdscr.getstr(height - 1, 15, 100).decode('utf-8')
+                new_item = stdscr.getstr(height - 2, 17, 100).decode('utf-8')
                 items.append(new_item)
                 curses.noecho()
+
+        # Keybind s for subtract new item
         elif key == ord('s') and items:
             items.pop(selected)
             if selected >= len(items):
                 selected = len(items) - 1
+
+        # Keybind SPACE for toggle complete/incomplete
         elif key == ord(' '):
             if items[selected].endswith(completed_suffix):
                 completed.remove(items[selected])
@@ -78,16 +89,23 @@ def main(stdscr):
                 items.append(items.pop(selected))
             if selected >= len(items):
                 selected = len(items) - 1
+
+        # Keybind h for move item up
         elif key == ord('h') and selected > 0:
             items[selected], items[selected - 1] = items[selected - 1], items[selected]
             selected -= 1
+
+        # Keybind l for move item down
         elif key == ord('l') and selected < len(items) - 1:
             items[selected], items[selected + 1] = items[selected + 1], items[selected]
             selected += 1
-        elif key == ord('e'):
+
+        # Keybind r for replace
+        elif key == ord('r'):
             curses.echo()
-            stdscr.addstr(height - 1, 0, "Enter new name: ")
-            new_name = stdscr.getstr(height - 1, 15, 100).decode('utf-8')
+            stdscr.addstr(height - 2, 1, "Enter new name: ")
+            stdscr.timeout(-1)
+            new_name = stdscr.getstr(height - 2, 17, 100).decode('utf-8')
             items[selected] = new_name
             curses.noecho()
 
